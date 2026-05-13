@@ -1,0 +1,40 @@
+# ==============================================================================
+# PROJET ML - HEART DISEASE PREDICTION
+# Dépendances pour Environnement Python
+# ==============================================================================
+
+# Core Data Science Libraries
+numpy==2.4.4
+pandas==3.0.3
+scipy==1.17.1
+scikit-learn==1.8.0
+
+# Visualization Libraries
+matplotlib==3.10.9
+seaborn==0.13.2
+plotly>=5.17.0
+
+# Web Application Framework
+streamlit==1.57.0
+
+# Jupyter & Interactive Notebooks
+jupyter==1.1.1
+jupyter-console==6.6.3
+jupyter-events==0.12.1
+jupyter-lsp==2.3.1
+jupyter_client==8.8.0
+jupyter_core==5.9.1
+jupyter_server==2.18.2
+jupyterlab==4.5.7
+notebook==7.5.6
+
+# Utilities & Dependencies
+python-dateutil==2.9.0.post0
+requests==2.34.0
+pillow==12.2.0
+protobuf==7.34.1
+
+# Optional: Development & Testing
+black>=23.9.1
+flake8>=6.0.0
+pytest>=7.4.2
