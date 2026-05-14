@@ -1,23 +1,13 @@
-# ==============================================================================
-# PROJECT CONFIGURATION
-# ==============================================================================
-
 project:
   name: "Heart Disease Prediction"
   version: "1.0.0"
-  description: "ML Classification project for Heart Disease prediction"
-  author: "Étudiant IFOAD"
+  description: "ML classification project for Heart Disease prediction"
+  author: "Etudiant IFOAD"
   date: "2026-05-13"
-
-# ==============================================================================
-# DATA CONFIGURATION
-# ==============================================================================
 
 data:
   raw_path: "data/raw/processed.cleveland.data"
   processed_path: "data/processed/heart_disease_cleaned.csv"
-  
-  # Dataset columns
   columns:
     - age
     - sex
@@ -33,38 +23,33 @@ data:
     - ca
     - thal
     - target
-  
-  # Target variable
   target: "target"
   target_type: "binary"
-  
-  # Test-train split ratio
   test_size: 0.2
   random_state: 42
 
-# ==============================================================================
-# PREPROCESSING CONFIGURATION
-# ==============================================================================
-
 preprocessing:
-  # Handling missing values
   handle_missing: true
-  missing_strategy: "drop"  # drop, mean, median, mode
-  
-  # Normalization/Standardization
+  missing_strategy_numeric: "median"
+  missing_strategy_categorical: "most_frequent"
   scaling: true
-  scaler_type: "StandardScaler"  # StandardScaler, MinMaxScaler
-  
-  # Categorical encoding
-  encoding_type: "one_hot"  # one_hot, label
-  
-  # Feature selection
-  feature_selection: false
-  n_features: null
-
-# ==============================================================================
-# MODEL CONFIGURATION
-# ==============================================================================
+  scaler_type: "StandardScaler"
+  encoding_type: "one_hot"
+  numeric_features:
+    - age
+    - trestbps
+    - chol
+    - thalach
+    - oldpeak
+  categorical_features:
+    - sex
+    - cp
+    - fbs
+    - restecg
+    - exang
+    - slope
+    - ca
+    - thal
 
 models:
   logistic_regression:
@@ -72,87 +57,71 @@ models:
     hyperparameters:
       max_iter: 1000
       random_state: 42
-      solver: "lbfgs"
-  
+      solver: "liblinear"
+
+  knn:
+    name: "K-Nearest Neighbors"
+    hyperparameters:
+      n_neighbors: 7
+      weights: "distance"
+      metric: "minkowski"
+
   svm:
     name: "Support Vector Machine"
     hyperparameters:
       kernel: "rbf"
       C: 1.0
+      gamma: "scale"
+      probability: true
       random_state: 42
-  
+
   decision_tree:
     name: "Decision Tree"
     hyperparameters:
-      max_depth: 10
-      min_samples_split: 5
+      max_depth: 5
+      min_samples_split: 4
       random_state: 42
-  
+
   random_forest:
     name: "Random Forest"
     hyperparameters:
-      n_estimators: 100
-      max_depth: 10
+      n_estimators: 200
+      max_depth: 8
+      min_samples_split: 4
       random_state: 42
-      n_jobs: -1
-  
-  gradient_boosting:
-    name: "Gradient Boosting"
-    hyperparameters:
-      n_estimators: 100
-      learning_rate: 0.1
-      max_depth: 5
-      random_state: 42
-  
-  knn:
-    name: "K-Nearest Neighbors"
-    hyperparameters:
-      n_neighbors: 5
-      weights: "uniform"
-      metric: "euclidean"
+      n_jobs: 1
 
-# ==============================================================================
-# EVALUATION CONFIGURATION
-# ==============================================================================
+  adaboost:
+    name: "AdaBoost"
+    hyperparameters:
+      n_estimators: 150
+      learning_rate: 0.8
+      random_state: 42
 
 evaluation:
-  # Metrics to compute
   metrics:
     - "accuracy"
     - "precision"
     - "recall"
     - "f1_score"
     - "roc_auc"
-    - "confusion_matrix"
-  
-  # Cross-validation
   cv_folds: 5
-  
-  # Class weights
-  class_weight: "balanced"
-
-# ==============================================================================
-# STREAMLIT APP CONFIGURATION
-# ==============================================================================
+  scoring_primary: "roc_auc"
 
 streamlit:
-  # App settings
   page_title: "Heart Disease Prediction"
-  page_icon: "🏥"
+  page_icon: "❤️"
   layout: "wide"
-  
-  # Sidebar configuration
   show_sidebar: true
-  
-  # Theme
-  theme: "light"  # light, dark
-  
-  # Port
+  theme: "light"
   port: 8501
+  assets_images_path: "assets/images"
 
-# ==============================================================================
-# PATHS AND DIRECTORIES
-# ==============================================================================
+auth:
+  enabled: true
+  demo_user:
+    email: "IFOAD@gmail.com"
+    password: "Heart123"
 
 paths:
   root: "."
@@ -160,19 +129,19 @@ paths:
   notebooks: "notebooks"
   src: "src"
   streamlit_app: "streamlit_app"
-  models: "streamlit_app/models"
-  
-  # Logs and outputs
+  models: "models"
   logs: "logs"
   outputs: "outputs"
 
-# ==============================================================================
-# LOGGING CONFIGURATION
-# ==============================================================================
-
 logging:
-  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
   file: "logs/app.log"
-  max_file_size: 10485760  # 10MB
-  backup_count: 5
+  files:
+    app: "logs/app.log"
+    pipeline: "logs/training.log"
+    training: "logs/training.log"
+    evaluation: "logs/evaluation.log"
+    streamlit: "logs/streamlit.log"
+  max_file_size: 1048576
+  backup_count: 3

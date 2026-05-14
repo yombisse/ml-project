@@ -33,6 +33,8 @@ python-dateutil==2.9.0.post0
 requests==2.34.0
 pillow==12.2.0
 protobuf==7.34.1
+PyYAML>=6.0
+openpyxl>=3.1.0
 
 # Optional: Development & Testing
 black>=23.9.1

@@ -1,384 +1,219 @@
-# 🏥 Prédiction des Maladies Cardiaques - Heart Disease Classification
+# Heart Disease Prediction
 
-[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/downloads/)
-[![Streamlit App](https://img.shields.io/badge/streamlit-app-FF4B4B)](https://streamlit.io)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3.0-F7931E)](https://scikit-learn.org)
+Projet académique de classification supervisée basé sur le dataset **Heart Disease UCI**.  
+L’objectif est de comparer plusieurs algorithmes de machine learning pour prédire la présence d’une maladie cardiaque, puis de présenter les résultats dans une application **Streamlit** claire et interactive.
 
-## 📋 Vue d'ensemble du Projet
+## Objectifs
 
-Ce projet académique de Machine Learning vise à prédire la présence de maladies cardiaques basé sur le dataset Heart Disease UCI. Le projet inclut une analyse exploratoire complète (EDA), le prétraitement des données, l'entraînement de multiples modèles de classification et une application web interactive.
+- préparer et nettoyer le dataset `processed.cleveland.data`
+- transformer la cible en problème binaire
+- entraîner 6 modèles de classification
+- comparer les performances avec :
+  - Accuracy
+  - Precision
+  - Recall
+  - F1-score
+  - AUC-ROC
+- proposer une interface Streamlit avec :
+  - authentification simple
+  - visualisation des données
+  - comparaison des modèles
+  - prédiction individuelle
+  - export des résultats
 
-### 🎯 Objectifs
+## Algorithmes utilisés
 
-- ✅ Analyse exploratoire des données (EDA)
-- ✅ Prétraitement et nettoyage des données
-- ✅ Entraînement de 6 modèles de classification
-- ✅ Évaluation et comparaison des modèles
-- ✅ Application web Streamlit pour prédictions en temps réel
+Les algorithmes imposés par le sujet et implémentés dans le projet sont :
 
----
-
-## 📁 Architecture du Projet
-
-```
-ML-PROJECT/
-├── data/
-│   ├── raw/                          # Dataset brut (processed.cleveland.data)
-│   └── processed/                    # Données nettoyées et prétraitées
-│
-├── notebooks/
-│   └── analysis.ipynb                # Rapport académique complet
-│
-├── src/                              # Code réutilisable et modulaire
-│   ├── __init__.py
-│   ├── constants.py                  # Configurations et constantes
-│   ├── preprocessing.py              # Nettoyage et préparation des données
-│   ├── models.py                     # Implémentation des 6 modèles ML
-│   ├── evaluation.py                 # Métriques et comparaison des modèles
-│   └── utils.py                      # Visualisations et fonctions utiles
-│
-├── streamlit_app/
-│   ├── app.py                        # Fichier principal Streamlit
-│   ├── pages/
-│   │   ├── 01_EDA.py                 # Visualisations exploratoires
-│   │   ├── 02_Models_Comparison.py   # Comparaison des modèles
-│   │   └── 03_Prediction.py          # Prédictions temps réel
-│   └── models/                       # Modèles sauvegardés (.pkl)
-│
-├── requirements.txt                  # Dépendances Python
-├── README.md                         # Ce fichier
-├── .gitignore                        # Git configuration
-├── setup.py                          # Installation du package
-└── config.yaml                       # Configuration du projet
-```
-
----
-
-## 🚀 Installation et Configuration
-
-### Prérequis
-
-- **Python** : 3.9 ou supérieur
-- **pip** : Gestionnaire de paquets Python
-- **Git** (optionnel, pour le versioning)
-
-### ⚙️ Étape 1 : Cloner/Naviguer vers le projet
-
-```bash
-cd ~/MesProjets/ml-project
-```
-
-### 📦 Étape 2 : Créer un Environnement Virtuel
-
-#### **Sur Linux/macOS** :
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-#### **Sur Windows** :
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-**✓ Vous verrez `(venv)` apparaître au début de votre ligne de terminal**
-
-### 📥 Étape 3 : Installer les Dépendances
-
-Assurez-vous que l'environnement virtuel est activé, puis :
-
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-**Cela installera :**
-- numpy, pandas, scipy (manipulation de données)
-- scikit-learn (modèles ML)
-- matplotlib, seaborn, plotly (visualisations)
-- streamlit (application web)
-- jupyter, notebook (notebooks interactifs)
-
-### ✅ Étape 4 : Vérifier l'Installation
-
-```bash
-# Vérifier que les principales bibliothèques sont installées
-python -c "import pandas, sklearn, streamlit; print('✓ All libraries installed successfully!')"
-```
-
----
-
-## 📊 Utilisation du Projet
-
-### Option 1 : Jupyter Notebook (Analyse)
-
-```bash
-# Activer l'environnement virtuel
-source venv/bin/activate  # Linux/macOS
-# ou
-venv\Scripts\activate     # Windows
-
-# Lancer Jupyter
-jupyter notebook
-
-# Ouvrir: notebooks/analysis.ipynb
-```
-
-📌 Le notebook contient :
-- Introduction et contexte
-- Chargement du dataset
-- Nettoyage des données
-- Analyse exploratoire complète (distributions, corrélations, outliers)
-- Sauvegarde des données prétraitées
-
-### Option 2 : Application Streamlit (Prédictions)
-
-```bash
-# Activer l'environnement virtuel
-source venv/bin/activate  # Linux/macOS
-# ou
-venv\Scripts\activate     # Windows
-
-# Lancer Streamlit
-streamlit run streamlit_app/app.py
-```
-
-📌 L'application offre :
-- **Page Accueil** : Vue d'ensemble du projet
-- **Page EDA** : Visualisations exploratoires interactives
-- **Page Comparaison Modèles** : Performance de 6 modèles
-- **Page Prédiction** : Interface pour prédire en temps réel
-
----
-
-## 🧪 Structure des Modules Python
-
-### `src/preprocessing.py`
-Nettoyage et préparation des données :
-- Gestion des valeurs manquantes
-- Normalisation/Standardisation
-- Encodage des variables catégorielles
-- Création des datasets train/test
-
-### `src/models.py`
-Implémentation de 6 modèles de classification :
 1. Logistic Regression
-2. Support Vector Machine (SVM)
-3. Decision Tree
-4. Random Forest
-5. Gradient Boosting
-6. K-Nearest Neighbors (KNN)
+2. K-Nearest Neighbors
+3. Support Vector Machine
+4. Decision Tree
+5. Random Forest
+6. AdaBoost
 
-### `src/evaluation.py`
-Métriques et évaluation :
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- ROC-AUC
-- Confusion Matrix
+## Structure du projet
 
-### `src/utils.py`
-Fonctions utilitaires :
-- Visualisations (plots, heatmaps)
-- Chargement/sauvegarde de modèles
-- Configurations globales
-
-### `src/constants.py`
-Configurations du projet :
-- Chemins des fichiers
-- Paramètres des modèles
-- Seuils et hyperparamètres
-
----
-
-## 📈 Dataset
-
-**Nom** : Heart Disease UCI Dataset  
-**Source** : [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/heart+disease)  
-**Fichier** : `processed.cleveland.data`
-
-### Variables (13 features + 1 cible)
-
-| Variable | Description | Type |
-|----------|-------------|------|
-| `age` | Âge du patient (années) | Numérique |
-| `sex` | Sexe (0: Féminin, 1: Masculin) | Catégoriell |
-| `cp` | Type de douleur thoracique | Catégoriquel |
-| `trestbps` | Pression artérielle au repos (mmHg) | Numérique |
-| `chol` | Cholestérol (mg/dl) | Numérique |
-| `fbs` | Sucre à jeun > 120 mg/dl | Binaire |
-| `restecg` | Résultats ECG au repos | Catégoriquel |
-| `thalach` | Fréquence cardiaque maximale | Numérique |
-| `exang` | Angine induite par l'exercice | Binaire |
-| `oldpeak` | Dépression ST induite par l'exercice | Numérique |
-| `slope` | Pente du segment ST | Catégoriquel |
-| `ca` | Nombre de vaisseaux principaux | Numérique |
-| `thal` | Thalassémie | Catégoriquel |
-| **`target`** | **Maladie cardiaque (0: Absent, 1: Présent)** | **Binaire** |
-
----
-
-## 🔧 Commandes Utiles
-
-### Vérifier l'environnement virtuel
-```bash
-# Afficher le chemin de Python actif
-which python  # Linux/macOS
-where python  # Windows
-
-# Lister les packages installés
-pip list
+```text
+ml-project/
+├── assets/
+│   └── images/                         # Images utilisées dans l'accueil Streamlit
+├── data/
+│   ├── raw/
+│   │   └── processed.cleveland.data   # Dataset brut principal
+│   └── processed/                     # Données nettoyées
+├── logs/                              # Journaux d'entraînement et d'application
+├── models/                            # Modèles sauvegardés et résultats exportés
+├── notebooks/
+│   └── analysis.ipynb
+├── src/
+│   ├── constants.py
+│   ├── evaluation.py
+│   ├── models.py
+│   ├── preprocessing.py
+│   └── utils.py
+├── streamlit_app/
+│   ├── app.py
+│   ├── common.py
+│   └── pages/
+│       ├── 00_Accueil.py
+│       ├── 01_EDA.py
+│       ├── 02_Models_Comparison.py
+│       ├── 03_Prediction.py
+│       └── 04_Guide_Application.py
+├── tests/
+│   ├── test_evaluation.py
+│   ├── test_models.py
+│   └── test_preprocessing.py
+├── Choix_Algo.md
+├── config.yaml
+├── DOCUMENTATION_TECHNIQUE.md
+├── GUIDE_UTILISATION.md
+├── plan_implementation.md
+├── projet.md
+├── README.md
+├── requirements.txt
+└── run_training.py
 ```
 
-### Réinstaller les dépendances
+## Dataset
+
+- Source : [UCI Heart Disease](https://archive.ics.uci.edu/dataset/45/heart+disease)
+- Fichier exploité : `data/raw/processed.cleveland.data`
+- Nombre de colonnes : 14
+- Nombre de variables explicatives : 13
+- Variable cible : `target`
+
+### Point important sur la cible
+
+Dans le dataset original, la cible prend les valeurs `0, 1, 2, 3, 4`.
+
+- `0` : absence de maladie
+- `1 à 4` : présence de maladie
+
+Dans ce projet, la cible est convertie en **binaire** :
+
+- `0 -> 0`
+- `1, 2, 3, 4 -> 1`
+
+## Prétraitement
+
+Le pipeline de préparation des données comprend :
+
+- chargement du dataset
+- détection des valeurs manquantes
+- imputation :
+  - médiane pour les variables numériques
+  - valeur la plus fréquente pour les variables catégorielles
+- standardisation des variables numériques
+- encodage des variables catégorielles avec `OneHotEncoder`
+- séparation `train / test`
+
+Le prétraitement est intégré directement dans les pipelines scikit-learn pour éviter les fuites de données.
+
+## Entraînement et évaluation
+
+Le projet suit cette logique :
+
+1. préparation des données
+2. séparation du dataset en jeu d’entraînement et jeu de test
+3. validation croisée sur les données d’entraînement
+4. entraînement final des modèles
+5. évaluation sur le jeu de test
+6. sélection du meilleur modèle
+7. sauvegarde des artefacts dans `models/`
+
+### Fichiers générés dans `models/`
+
+- `best_model.joblib`
+- `logistic_regression.joblib`
+- `knn.joblib`
+- `svm.joblib`
+- `decision_tree.joblib`
+- `random_forest.joblib`
+- `adaboost.joblib`
+- `cv_results.csv`
+- `test_results.csv`
+- `registry.json`
+
+## Application Streamlit
+
+L’application inclut :
+
+- une page d’accueil avec carousel d’images
+- un bouton de connexion avec formulaire pop-up
+- une authentification simple email / mot de passe
+- une sidebar privée après connexion
+- une page de visualisation des données
+- une page de comparaison des modèles
+- une page de prédiction individuelle
+- une page guide
+- des exports CSV / Excel
+
+## Installation
+
+### 1. Créer un environnement virtuel
+
+Sous Windows :
+
 ```bash
-pip install -r requirements.txt --force-reinstall
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
-### Créer un fichier requirements.txt à partir de l'env actuel
+Sous Linux / macOS :
+
 ```bash
-pip freeze > requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### Déactiver l'environnement virtuel
-```bash
-deactivate
-```
-
----
-
-## 📚 Guide d'Utilisation Complet
-
-### 1️⃣ Premier lancement (Setup complet)
+### 2. Installer les dépendances
 
 ```bash
-# 1. Se placer dans le dossier
-cd ~/MesProjets/ml-project
-
-# 2. Créer et activer l'env virtuel
-python3 -m venv venv
-source venv/bin/activate
-
-# 3. Installer les dépendances
-pip install --upgrade pip
 pip install -r requirements.txt
-
-# 4. Lancer le notebook pour l'analyse
-jupyter notebook notebooks/analysis.ipynb
 ```
 
-### 2️⃣ Utiliser l'application Streamlit
+## Lancer le projet
+
+### Entraîner les modèles
 
 ```bash
-# Avec l'env virtuel activé
+python run_training.py
+```
+
+### Exécuter les tests
+
+```bash
+python -m pytest tests -q
+```
+
+### Lancer l’application Streamlit
+
+```bash
 streamlit run streamlit_app/app.py
-
-# L'app sera accessible à http://localhost:8501
 ```
 
-### 3️⃣ Entraîner les modèles
+## Identifiants de démonstration
 
-```python
-# Dans un script Python ou Jupyter
-from src.preprocessing import load_and_prepare_data
-from src.models import train_all_models
-from src.evaluation import evaluate_models
+- Email : `IFOAD@gmail.com`
+- Mot de passe : `Heart123`
 
-# Charger les données
-X_train, X_test, y_train, y_test = load_and_prepare_data()
+## Fichiers de documentation
 
-# Entraîner tous les modèles
-models = train_all_models(X_train, y_train)
+- [GUIDE_UTILISATION.md](GUIDE_UTILISATION.md)
+- [DOCUMENTATION_TECHNIQUE.md](DOCUMENTATION_TECHNIQUE.md)
+- [Choix_Algo.md](Choix_Algo.md)
+- [plan_implementation.md](plan_implementation.md)
 
-# Évaluer et comparer
-results = evaluate_models(models, X_test, y_test)
-print(results)
-```
+## Vérifications déjà réalisées
 
----
+- entraînement du pipeline : OK
+- génération des artefacts : OK
+- tests unitaires basiques : OK
+- interface Streamlit fonctionnelle : OK
 
-## 📊 Exemple de Sortie Attendue
+## Remarque
 
-### Performance des Modèles
-```
-Model                  | Accuracy | Precision | Recall | F1-Score | AUC
-Logistic Regression   |  0.82    |   0.85    | 0.78   |  0.81    | 0.87
-Random Forest         |  0.88    |   0.90    | 0.86   |  0.88    | 0.93
-SVM                   |  0.84    |   0.87    | 0.81   |  0.84    | 0.89
-Gradient Boosting     |  0.89    |   0.91    | 0.87   |  0.89    | 0.94
-Decision Tree         |  0.81    |   0.83    | 0.79   |  0.81    | 0.85
-KNN                   |  0.80    |   0.82    | 0.77   |  0.79    | 0.83
-```
-
----
-
-## 🐛 Dépannage
-
-### Erreur : `No module named 'pandas'`
-```bash
-# Solution : Réinstaller les dépendances
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### Erreur : `Port 8501 already in use`
-```bash
-# Solution : Spécifier un port différent
-streamlit run streamlit_app/app.py --server.port 8502
-```
-
-### Erreur : `FileNotFoundError` pour les données
-```bash
-# Solution : Télécharger le dataset dans data/raw/
-# Chemin attendu: data/raw/processed.cleveland.data
-```
-
----
-
-## 📖 Ressources Supplémentaires
-
-- [Scikit-learn Documentation](https://scikit-learn.org)
-- [Pandas Documentation](https://pandas.pydata.org)
-- [Streamlit Documentation](https://docs.streamlit.io)
-- [Jupyter Notebook Guide](https://jupyter.org)
-- [UCI Heart Disease Dataset](https://archive.ics.uci.edu/ml/datasets/heart+disease)
-
----
-
-## 📝 Notes Académiques
-
-Ce projet respecte les normes académiques :
-- ✅ Code modulaire et réutilisable
-- ✅ Documentation complète
-- ✅ Séparation des responsabilités (SoC)
-- ✅ Validation croisée et métriques appropriées
-- ✅ Interface utilisateur professionnelle
-
----
-
-## 👤 Auteur
-
-**Projet IFOAD Machine Learning**  
-Date : 13 mai 2026
-
----
-
-## 📜 Licence
-
-Ce projet est fourni à titre académique à des fins d'enseignement.
-
----
-
-## ✨ Améliorations Futures
-
-- [ ] Ajouter des modèles d'ensemble (Voting, Stacking)
-- [ ] Implémenter l'optimisation des hyperparamètres (GridSearch, RandomSearch)
-- [ ] Ajouter la prédiction par batch (fichier CSV)
-- [ ] Créer une API REST (FastAPI)
-- [ ] Déployer sur cloud (Heroku, AWS, Azure)
-- [ ] Ajouter des tests unitaires (pytest)
-- [ ] Implémenter le monitoring des modèles
-
----
+Ce projet a une finalité **académique**.  
+Les résultats et prédictions fournis par l’application servent à démontrer une démarche de machine learning et ne remplacent pas une interprétation médicale professionnelle.
