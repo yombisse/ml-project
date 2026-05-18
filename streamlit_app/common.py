@@ -13,6 +13,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 from src.utils import load_config, resolve_path, setup_logger
+from streamlit_app.theme import inject_medical_theme
 
 
 config = load_config()
@@ -85,6 +86,7 @@ def login_form() -> None:
 
 def require_authentication(page_title: str) -> None:
     init_session()
+    inject_global_styles()
     if not st.session_state.get("authenticated", False):
         st.switch_page("pages/00_Accueil.py")
     persist_auth_in_url()
@@ -117,157 +119,8 @@ def render_sidebar(current_page: str) -> None:
 
 
 def inject_global_styles() -> None:
-    st.markdown(
-        """
-        <style>
-        .stApp {
-            background:
-                radial-gradient(circle at top left, rgba(31, 119, 180, 0.06), transparent 25%),
-                radial-gradient(circle at bottom right, rgba(16, 150, 72, 0.07), transparent 28%),
-                linear-gradient(180deg, #fbfdfc 0%, #f5f8fb 100%);
-        }
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.9rem 1.2rem;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.86);
-            border: 1px solid rgba(17, 51, 43, 0.08);
-            margin-bottom: 1rem;
-            backdrop-filter: blur(8px);
-        }
-        .brand {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #11332b;
-        }
-        .nav-links {
-            color: #35544c;
-            font-size: 0.92rem;
-        }
-        .login-shell {
-            position: relative;
-            min-height: 78vh;
-            border-radius: 26px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.18);
-            box-shadow: 0 20px 40px rgba(17, 51, 43, 0.12);
-        }
-        .carousel-layer {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            animation: fadeSlide 25s infinite;
-        }
-        .carousel-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(9,27,24,0.68), rgba(15,47,76,0.50));
-        }
-        .overlay-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            min-height: 78vh;
-            padding: 1.4rem;
-        }
-        .welcome-panel {
-            color: white;
-            padding: 2rem;
-            max-width: 48rem;
-        }
-        .welcome-panel h1 {
-            font-size: 2.5rem;
-            line-height: 1.1;
-            margin-bottom: 0.8rem;
-        }
-        .welcome-panel p {
-            font-size: 1.02rem;
-            color: rgba(255,255,255,0.86);
-            max-width: 40rem;
-        }
-        .pill-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.65rem;
-            margin-top: 1rem;
-        }
-        .pill {
-            padding: 0.55rem 0.9rem;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.18);
-            color: white;
-            font-size: 0.9rem;
-        }
-        .login-card h1 {
-            color: #11332b;
-            margin-bottom: 0.3rem;
-        }
-        .login-card p {
-            color: #49635d;
-        }
-        .login-dialog-copy {
-            color: #11332b;
-            margin-bottom: 0.85rem;
-        }
-        .login-dialog-copy p {
-            color: #35544c;
-            margin-bottom: 0;
-        }
-        .hero-button {
-            display: inline-block;
-            padding: 0.85rem 1.2rem;
-            background: rgba(255,255,255,0.96);
-            color: #11332b;
-            border-radius: 14px;
-            font-weight: 700;
-            border: 0;
-            margin-top: 1rem;
-        }
-        .section-card {
-            padding: 1rem 1.1rem;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.88);
-            border: 1px solid rgba(17, 51, 43, 0.08);
-            margin-bottom: 1rem;
-        }
-        section[data-testid="stSidebar"] button[kind="secondary"] {
-            background: #fdecea !important;
-            color: #b71c1c !important;
-            border-color: #f5c6c6 !important;
-        }
-        section[data-testid="stSidebar"] button[kind="secondary"]:hover {
-            background: #c62828 !important;
-            color: white !important;
-            border-color: #c62828 !important;
-        }
-        @keyframes fadeSlide {
-            0% { opacity: 0; }
-            8% { opacity: 1; }
-            28% { opacity: 1; }
-            36% { opacity: 0; }
-            100% { opacity: 0; }
-        }
-        @media (max-width: 900px) {
-            .overlay-content {
-                min-height: auto;
-            }
-            .welcome-panel {
-                padding: 1rem;
-            }
-            .welcome-panel h1 {
-                font-size: 2rem;
-            }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    # Inject professional medical theme (replaces old CSS)
+    inject_medical_theme()
 
 
 def render_topbar() -> None:
@@ -319,6 +172,8 @@ def render_login_shell() -> None:
         """,
         unsafe_allow_html=True,
     )
+    # Inject professional medical theme
+    inject_medical_theme()
 
 
 def dataframe_to_csv_bytes(dataframe: pd.DataFrame) -> bytes:

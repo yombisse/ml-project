@@ -12,6 +12,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 from streamlit_app.common import (
+    inject_global_styles,
     render_export_menu,
     require_authentication,
 )
@@ -39,7 +40,14 @@ def beautify_models(dataframe: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+# Inject CSS immediately at page load
+inject_global_styles()
+
 require_authentication("Comparaison")
+
+# Back button
+if st.button("← Retour à l'accueil"):
+    st.switch_page("pages/00_Accueil.py")
 
 st.title("Resultats globaux")
 st.caption("Cette page aide a voir quelle solution offre les resultats les plus solides sur ce jeu de donnees.")
