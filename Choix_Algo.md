@@ -1,405 +1,214 @@
 # Choix des algorithmes
 
-## 1. But du document
+## 1. Objectif de cette partie
 
-Ce document explique simplement :
+Cette section explique la logique retenue pour choisir, entraîner et comparer les algorithmes de classification du projet.  
+L'idée n'était pas seulement d'obtenir un modèle qui fonctionne, mais de montrer une démarche de comparaison sérieuse, compréhensible et cohérente avec le sujet.
 
-- pourquoi ces algorithmes ont ete choisis
-- comment ils sont implementes dans le projet
-- comment l'entrainement est effectue
-- comment le systeme sait quoi faire a chaque etape
-- quelle logique a ete suivie pour comparer les resultats
+## 2. Pourquoi plusieurs algorithmes ont été testés
 
-L'objectif est de rendre la partie "modeles de machine learning" facile a comprendre, meme pour quelqu'un qui ne connait pas encore tous les details du code.
+Le projet porte sur une **classification binaire** liée à la présence ou non d'une maladie cardiaque.  
+Dans ce contexte, utiliser plusieurs algorithmes est important pour trois raisons :
 
-## 2. Pourquoi plusieurs algorithmes ont ete utilises
+- un seul modèle ne permet pas d'affirmer que la meilleure solution a été recherchée ;
+- chaque algorithme apprend différemment ;
+- certains modèles sont simples à interpréter, alors que d'autres sont souvent plus puissants.
 
-Le sujet du projet ne demande pas un seul modele, mais une **comparaison de plusieurs algorithmes de classification**.
+La comparaison ne sert donc pas à “multiplier les essais au hasard”, mais à évaluer plusieurs familles d'approches sur les mêmes données, avec les mêmes règles de préparation et les mêmes métriques.
 
-L'idee derriere cela est simple :
+## 3. Algorithmes retenus
 
-- un seul modele ne suffit pas pour dire qu'on a cherche la meilleure solution
-- chaque algorithme a sa propre maniere d'apprendre
-- certains modeles sont simples et interpretables
-- d'autres sont plus puissants mais plus complexes
+Les six algorithmes utilisés sont :
 
-Le but n'est donc pas seulement de "faire tourner de l'IA", mais de **comparer des approches differentes** sur le meme jeu de donnees.
+1. `Logistic Regression`
+2. `K-Nearest Neighbors`
+3. `Support Vector Machine`
+4. `Decision Tree`
+5. `Random Forest`
+6. `AdaBoost`
 
-## 3. Les algorithmes retenus dans le projet
+Ces modèles ont été retenus parce qu'ils correspondent à ceux demandés dans le sujet et qu'ils couvrent des logiques d'apprentissage différentes.
 
-Les modeles utilises sont :
-
-1. Logistic Regression
-2. K-Nearest Neighbors
-3. Support Vector Machine
-4. Decision Tree
-5. Random Forest
-6. AdaBoost
-
-Ces algorithmes ont ete gardes parce qu'ils sont exactement ceux demandes dans le sujet.
-
-## 4. Logique derriere le choix de chaque algorithme
+## 4. Intérêt de chaque algorithme
 
 ### 4.1 Logistic Regression
 
-Ce modele est souvent utilise comme base de reference en classification binaire.
+La régression logistique sert de **modèle de référence**.
 
-Pourquoi il est utile :
+Elle est utile car :
 
-- il est simple
-- il est rapide
-- il fonctionne bien sur beaucoup de petits jeux de donnees
-- il donne une bonne base de comparaison
-
-Dans ce projet, il sert de modele de reference serieux.
+- elle est simple ;
+- elle est rapide à entraîner ;
+- elle est adaptée à la classification binaire ;
+- elle fournit une base de comparaison solide.
 
 ### 4.2 K-Nearest Neighbors
 
-Ce modele compare un patient a des patients proches dans les donnees.
+KNN classe un patient à partir de la proximité avec des patients similaires.
 
-Pourquoi il est interessant :
+Ce modèle est intéressant car :
 
-- il est intuitif
-- il repose sur la notion de similarite
-- il reagit bien lorsque les donnees sont bien preparees
+- il est intuitif ;
+- il exploite directement la notion de similarité ;
+- il permet de tester une approche différente des modèles linéaires.
 
-Mais il est sensible a l'echelle des variables.  
-C'est pour cela que la standardisation a ete integree dans le pipeline.
+Il est toutefois sensible à l'échelle des variables, d'où l'importance de la standardisation dans le pipeline.
 
 ### 4.3 Support Vector Machine
 
-Le SVM cherche une separation optimale entre les classes.
+Le SVM cherche une frontière de séparation optimale entre les classes.
 
-Pourquoi il est utile :
+Il a été choisi car :
 
-- il peut etre tres performant sur des datasets de petite ou moyenne taille
-- il gere bien les separations complexes
-
-Dans ce projet, il permet de tester une approche plus mathematique et plus puissante que les modeles les plus simples.
+- il est souvent performant sur des jeux de données de petite ou moyenne taille ;
+- il peut modéliser des séparations plus complexes ;
+- il apporte une approche plus robuste que les modèles les plus simples.
 
 ### 4.4 Decision Tree
 
-L'arbre de decision prend des decisions par regles successives.
+L'arbre de décision apprend sous forme de règles successives.
 
-Pourquoi il est interessant :
+Il est pertinent car :
 
-- il est facile a comprendre
-- il est interpretable
-- il apprend des regles simples du type : "si telle variable depasse tel seuil"
-
-Il est utile pour comparer un modele interpretable avec des modeles plus performants mais moins lisibles.
+- il est facile à lire ;
+- il est plus interprétable ;
+- il permet de relier les prédictions à des seuils sur les variables.
 
 ### 4.5 Random Forest
 
-Le Random Forest est un ensemble de plusieurs arbres.
+Le Random Forest combine plusieurs arbres de décision.
 
-Pourquoi il est utile :
+Son intérêt est de :
 
-- il est souvent plus stable qu'un arbre unique
-- il reduit le risque de surapprentissage
-- il donne souvent de bons resultats en pratique
-
-Dans ce projet, il sert a representer les methodes d'ensemble robustes.
+- réduire l'instabilité d'un arbre unique ;
+- limiter le surapprentissage ;
+- fournir en pratique de bonnes performances globales.
 
 ### 4.6 AdaBoost
 
-AdaBoost est aussi une methode d'ensemble, mais avec une logique differente.
+AdaBoost est une méthode d'ensemble qui améliore progressivement les prédictions en insistant sur les cas difficiles.
 
-Pourquoi il est interessant :
+Il a été retenu pour :
 
-- il construit plusieurs petits modeles successifs
-- il insiste progressivement sur les cas difficiles
-- il peut donner de tres bons resultats sur certains problemes
+- tester une autre famille de modèles d'ensemble ;
+- comparer une logique adaptative à celle du Random Forest ;
+- vérifier si une combinaison de petits modèles peut mieux généraliser.
 
-Dans ce projet, il permet de tester une autre logique d'amelioration progressive des predictions.
+## 5. Pourquoi cet ensemble de modèles est pertinent
 
-## 5. Pourquoi ces 6 modeles forment un bon ensemble de comparaison
+Ces six algorithmes représentent plusieurs familles de classification :
 
-Les 6 modeles ne sont pas la par hasard.  
-Ils couvrent plusieurs grandes familles d'approches :
+- modèle linéaire : `Logistic Regression`
+- modèle par voisinage : `KNN`
+- modèle à marge : `SVM`
+- modèle à règles : `Decision Tree`
+- modèle d'ensemble par arbres : `Random Forest`
+- modèle d'ensemble adaptatif : `AdaBoost`
 
-- modele lineaire : Logistic Regression
-- modele par voisinage : KNN
-- modele a marge : SVM
-- modele a regles : Decision Tree
-- modele d'ensemble par arbres : Random Forest
-- modele d'ensemble adaptatif : AdaBoost
+Cette diversité rend la comparaison plus crédible, car elle oppose de vraies stratégies d'apprentissage différentes.
 
-Cela rend la comparaison plus riche, car on ne compare pas six variantes presque identiques, mais six manieres differentes d'apprendre.
+## 6. Comment les algorithmes sont gérés dans le projet
 
-## 6. Ou les algorithmes sont implementes dans le projet
-
-La logique des modeles est centralisee dans :
+La logique des modèles est centralisée dans :
 
 - `src/models.py`
 - `config.yaml`
 
-### Role de `config.yaml`
-
-`config.yaml` contient :
-
-- les noms des modeles
-- leurs hyperparametres
-- les chemins utiles
-- les parametres d'evaluation
-
-Cela permet d'eviter de mettre toutes les valeurs "en dur" dans le code.
-
-### Role de `src/models.py`
-
-Ce fichier lit la configuration et cree les modeles scikit-learn correspondants.
+`config.yaml` définit les hyperparamètres et les noms des modèles.  
+`src/models.py` lit cette configuration et instancie les modèles scikit-learn correspondants.
 
 Autrement dit :
 
-- `config.yaml` dit **quoi utiliser**
-- `src/models.py` dit **comment le construire**
+- `config.yaml` indique **quoi utiliser** ;
+- `src/models.py` indique **comment le construire**.
 
-## 7. Comment le systeme sait quel algorithme creer
+## 7. Logique d'entraînement retenue
 
-Dans `src/models.py`, une fonction cree un dictionnaire de modeles.
+L'entraînement suit une chaîne claire :
 
-La logique ressemble a ceci :
+1. chargement des données ;
+2. préparation et prétraitement ;
+3. séparation entraînement / test ;
+4. construction des pipelines ;
+5. validation croisée ;
+6. entraînement des modèles ;
+7. calcul des métriques ;
+8. comparaison finale ;
+9. sauvegarde du meilleur modèle.
 
-1. charger la configuration
-2. lire les hyperparametres de chaque modele
-3. instancier chaque algorithme scikit-learn
-4. stocker chaque modele dans une structure commune
+Le projet ne repose donc pas sur une “IA qui choisit seule”, mais sur une procédure programmée, contrôlée et reproductible.
 
-Exemple de logique :
+## 8. Pourquoi un pipeline a été utilisé
 
-- `logistic_regression` devient un objet `LogisticRegression(...)`
-- `knn` devient un objet `KNeighborsClassifier(...)`
-- `svm` devient un objet `SVC(...)`
+Chaque algorithme est intégré dans un pipeline contenant :
 
-Ainsi, le systeme ne "devine" pas les algorithmes tout seul.  
-Il suit la logique definie explicitement dans le projet.
+1. le préprocesseur ;
+2. le classifieur.
 
-## 8. Comment l'IA "sait" comment faire l'entrainement
+Cela garantit que les mêmes transformations sont appliquées :
 
-Ici, il faut bien comprendre une chose :
+- pendant l'entraînement ;
+- pendant l'évaluation ;
+- pendant l'utilisation finale dans Streamlit.
 
-Le projet n'utilise pas une IA qui invente sa propre methode toute seule.  
-Le systeme suit un **pipeline programme a l'avance**.
+Ce choix évite les incohérences entre apprentissage et prédiction.
 
-Autrement dit :
+## 9. Comment les modèles ont été comparés
 
-- nous definissons les etapes
-- le code execute ces etapes automatiquement
+La comparaison ne s'est pas faite uniquement sur l'accuracy.
 
-La logique est la suivante :
+Les métriques prises en compte sont :
 
-1. charger les donnees
-2. nettoyer les donnees
-3. preparer les variables
-4. diviser les donnees en train/test
-5. construire les pipelines
-6. entrainer les modeles
-7. calculer les scores
-8. comparer les resultats
-9. choisir le meilleur modele
-10. sauvegarder les artefacts
+- `Accuracy`
+- `Precision`
+- `Recall`
+- `F1-score`
+- `AUC-ROC`
 
-Donc l'IA n'improvise pas.  
-Elle apprend en suivant la structure qu'on lui a imposee.
+Le critère principal de sélection du meilleur modèle est **`roc_auc`**, car il donne une vision plus complète de la capacité du modèle à séparer les deux classes.
 
-## 9. Pourquoi un pipeline a ete utilise
+La validation croisée a été utilisée pour rendre cette comparaison plus fiable et éviter de juger un modèle sur un seul découpage des données.
 
-Le pipeline est un element tres important du projet.
+## 10. Comment le meilleur modèle est retenu
 
-Il permet d'enchainer automatiquement :
+Le meilleur modèle est choisi à partir des résultats de validation croisée, puis sauvegardé pour être réutilisé.
 
-- le pretraitement
-- puis le modele
+Les sorties principales sont :
 
-Dans ce projet, chaque algorithme est encapsule dans un pipeline qui contient :
+- `models/best_model.joblib`
+- `models/cv_results.csv`
+- `models/test_results.csv`
+- `models/registry.json`
 
-1. le preprocesseur
-2. le classifieur
+Cette organisation permet de conserver les résultats, de justifier le choix effectué et d'alimenter directement l'application Streamlit.
 
-Exemple logique :
+## 11. Point important sur les fichiers `.joblib`
 
-```text
-donnees brutes
--> imputation
--> encodage / standardisation
--> modele
--> prediction
-```
+Les fichiers comme :
 
-Ce choix est important car il garantit que les memes transformations sont appliquees :
+- `best_model.joblib`
+- `adaboost.joblib`
+- `logistic_regression.joblib`
 
-- pendant l'entrainement
-- pendant l'evaluation
-- pendant la prediction finale dans Streamlit
+ne sont **pas des fichiers texte classiques**.  
+Ce sont des **fichiers binaires** utilisés pour sauvegarder des objets Python déjà entraînés.
 
-## 10. Comment les donnees sont preparees avant l'entrainement
+Il est donc normal qu'un éditeur affiche un message du type :
 
-Avant qu'un algorithme puisse apprendre, les donnees doivent etre preparees.
+- fichier binaire ;
+- encodage non pris en charge.
 
-Dans ce projet :
+Cela ne signifie pas que le fichier est corrompu.  
+Cela signifie simplement qu'il doit être chargé avec Python, par exemple via `joblib.load(...)`, et non lu comme un document texte.
 
-- les valeurs manquantes sont gerees par imputation
-- les variables numeriques sont standardisees
-- les variables categorielles sont encodees
-- la cible est binarisee
+## 12. Conclusion
 
-Pourquoi cela est important :
+Le choix des algorithmes dans ce projet repose sur une logique claire :
 
-- certains modeles ne supportent pas les valeurs manquantes
-- certains modeles ont besoin de variables mises a l'echelle
-- les categories doivent etre converties dans un format exploitable
-
-## 11. Pourquoi tous les modeles ne sont pas traites "a la main" un par un
-
-Plutot que de coder 6 scripts differents, le projet suit une logique modulaire :
-
-- une fonction cree tous les modeles
-- une autre construit tous les pipelines
-- une autre les entraine
-- une autre les evalue
-
-Avantages :
-
-- moins de repetition
-- code plus propre
-- plus facile a maintenir
-- plus simple a expliquer
-
-## 12. Comment l'entrainement est effectue concretement
-
-L'entrainement suit une logique tres claire.
-
-### 12.1 Separation des donnees
-
-Le dataset est separe en deux parties :
-
-- jeu d'entrainement
-- jeu de test
-
-Le jeu d'entrainement sert a apprendre.  
-Le jeu de test sert a verifier la qualite finale.
-
-### 12.2 Validation croisee
-
-Avant de retenir un modele, on fait une validation croisee sur les donnees d'entrainement.
-
-Cela signifie qu'on coupe les donnees plusieurs fois pour tester la stabilite du modele.
-
-Pourquoi c'est utile :
-
-- cela donne une evaluation plus fiable
-- cela evite de juger un modele sur un seul decoupage
-
-### 12.3 Entrainement final
-
-Une fois la comparaison faite, chaque modele est entraine sur le jeu d'entrainement complet.
-
-Ensuite :
-
-- on calcule les metriques sur le jeu de test
-- on compare les scores
-- on retient le meilleur modele selon la logique choisie
-
-## 13. Comment le meilleur modele est choisi
-
-Le meilleur modele n'est pas choisi au hasard.
-
-La logique retenue est :
-
-- comparaison principale sur la validation croisee
-- critere principal : `roc_auc`
-
-Pourquoi ce choix :
-
-- l'AUC-ROC donne une vision globale de la capacite de separation
-- elle est tres utile quand on veut comparer plusieurs modeles de classification
-
-Une fois ce meilleur modele identifie :
-
-- il est sauvegarde dans `models/best_model.joblib`
-
-## 14. Pourquoi on ne choisit pas le meilleur modele uniquement avec l'accuracy
-
-L'accuracy est utile, mais elle ne suffit pas toujours.
-
-Dans ce projet, on tient compte de plusieurs metriques :
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- AUC-ROC
-
-La logique est la suivante :
-
-- `Accuracy` mesure la performance globale
-- `Precision` mesure la fiabilite des alertes positives
-- `Recall` mesure la capacite a retrouver les cas a risque
-- `F1-score` equilibre precision et recall
-- `AUC-ROC` mesure la qualite generale de separation
-
-Cela permet une comparaison plus serieuse et plus juste.
-
-## 15. Comment les resultats sont sauvegardes
-
-Apres l'entrainement :
-
-- chaque modele est sauvegarde dans `models/`
-- les resultats de validation croisee sont exportes dans `cv_results.csv`
-- les resultats finaux sont exportes dans `test_results.csv`
-- un fichier `registry.json` garde une trace du meilleur modele retenu
-
-Cela permet :
-
-- de ne pas re-entrainer a chaque fois
-- de reutiliser le meilleur modele dans Streamlit
-- de presenter facilement les resultats
-
-## 16. Lien entre les modeles et Streamlit
-
-L'application Streamlit n'entraine pas les modeles a la main a chaque page.
-
-Elle utilise les artefacts deja crees dans `models/`.
-
-Par exemple :
-
-- la page de comparaison lit les fichiers de resultats
-- la page de prediction charge `best_model.joblib`
-
-Cela rend l'application :
-
-- plus rapide
-- plus propre
-- plus stable
-
-## 17. Ce qu'il faut retenir 
-
-1. on a choisi les 6 algorithmes imposes par le sujet
-2. on les a organises dans un systeme commun
-3. chaque modele passe par le meme pretraitement
-4. on compare tous les modeles avec les memes metriques
-5. on utilise la validation croisee pour une comparaison plus fiable
-6. on choisit le meilleur modele selon une logique claire
-7. on sauvegarde les resultats pour les reutiliser dans l'application
-
-## 18. Conclusion
-
-Le choix des algorithmes dans ce projet repose sur une logique serieuse :
-
-- respecter les exigences du sujet
-- comparer plusieurs familles de modeles
-- utiliser une methode d'entrainement propre
-- garantir une evaluation juste
-- rendre le tout reutilisable dans une application
-
-Ce n'est donc pas simplement "tester des modeles".  
-C'est construire une chaine coherente de comparaison, de selection et d'utilisation pratique.
-
-## Open tabs:
- - DOCUMENTATION_TECHNIQUE.md: DOCUMENTATION_TECHNIQUE.md
- - test_evaluation.py: tests/test_evaluation.py
- - __init__.py: tests/__init__.py
- - test_preprocessing.py: tests/test_preprocessing.py
- - test_models.py: tests/test_models.py
+- respecter les exigences du sujet ;
+- comparer plusieurs familles de modèles ;
+- entraîner tous les modèles dans le même cadre méthodologique ;
+- utiliser des métriques adaptées ;
+- retenir le meilleur modèle sur une base objective.
 
 

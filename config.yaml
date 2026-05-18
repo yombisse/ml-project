@@ -2,8 +2,6 @@ project:
   name: "Heart Disease Prediction"
   version: "1.0.0"
   description: "ML classification project for Heart Disease prediction"
-  author: "Etudiant IFOAD"
-  date: "2026-05-13"
 
 data:
   raw_path: "data/raw/processed.cleveland.data"

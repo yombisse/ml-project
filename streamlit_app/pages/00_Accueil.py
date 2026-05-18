@@ -47,16 +47,3 @@ left, center, right = st.columns([1, 1, 1])
 with center:
     if st.button("Connexion", type="primary", use_container_width=True):
         open_login_dialog()
-
-st.markdown(
-    """
-    <div class="section-card" style="margin-top: 0.8rem;">
-        <h2>Accueil</h2>
-        <p>
-            Bienvenue dans l'application de demonstration. Cliquez sur le bouton ci-dessus
-            pour ouvrir le formulaire de connexion et acceder directement a la premiere section.
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)

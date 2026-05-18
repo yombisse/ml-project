@@ -1,7 +1,6 @@
-# ==============================================================================
 # PROJET ML - HEART DISEASE PREDICTION
 # Dépendances pour Environnement Python
-# ==============================================================================
+
 
 # Core Data Science Libraries
 numpy==2.4.4
