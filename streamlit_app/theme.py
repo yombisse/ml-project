@@ -205,8 +205,7 @@ def inject_medical_theme() -> None:
         }
         
         /* ==================== INPUTS & FORMS ==================== */
-        /* Objectif: rendre TOUTES les valeurs/texte des champs lisibles sur fond sombre.
-           On force explicitement la couleur en blanc (#FFFFFF) et on évite les conflits hérités. */
+        /* Tous les textes et valeurs en noir pour meilleure lisibilité */
         .stTextInput > div > div > input,
         .stNumberInput > div > div > input {
             height: 48px;
@@ -216,27 +215,34 @@ def inject_medical_theme() -> None:
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             transition: all 0.2s ease;
             background: var(--color-white) !important;
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
             padding: 0.75rem 1rem;
         }
 
-        /* BaseWeb selectbox (valeur affichée) */
+        /* Placeholder text en gris clair pour contraste */
+        .stTextInput > div > div > input::placeholder,
+        .stNumberInput > div > div > input::placeholder {
+            color: #94A3B8 !important;
+            -webkit-text-fill-color: #94A3B8 !important;
+        }
+
+        /* BaseWeb selectbox - texte en noir */
         .stSelectbox [data-baseweb="select"],
         .stSelectbox [role="combobox"],
         .stSelectbox [data-baseweb="select"] span,
         .stSelectbox [data-baseweb="select"] div {
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
         }
 
-        /* Cas select HTML (selon le rendu Streamlit) */
+        /* Select HTML - fond blanc, texte noir */
         .stSelectbox > div > div > select,
         .stSelectbox select {
-            background: #0F172A !important; /* conserve le fond sombre */
+            background: var(--color-white) !important;
             border: 2px solid #E2E8F0;
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
             height: 48px;
             border-radius: var(--radius-md);
             font-size: 14px;
@@ -244,34 +250,38 @@ def inject_medical_theme() -> None:
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        /* Dropdown options (listbox BaseWeb + options natives) */
-        .stSelectbox [role="listbox"] option,
-        .stSelectbox [role="listbox"] div,
-        .stSelectbox [role="listbox"] span,
+        /* Options du select - fond blanc, texte noir */
         .stSelectbox > div > div > select option {
-            background: #FFFFFF !important;
-            color: #FFFFFF !important;
+            background: var(--color-white) !important;
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
         }
 
-        /* Couleur du texte quand la liste est ouverte (panel/listbox) */
-        .stSelectbox [role="listbox"],
-        .stSelectbox [data-baseweb="select"] [role="listbox"] {
-            background: #0F172A !important;
-        }
-        .stSelectbox [role="listbox"] * {
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
+        /* Options sélectionnées */
+        .stSelectbox > div > div > select option:checked {
+            background: rgba(37, 99, 235, 0.15) !important;
+            color: #1E293B !important;
         }
 
-        /* Focus pour garder le contraste */
+        /* Dropdown listbox BaseWeb */
+        .stSelectbox [role="listbox"] {
+            background: var(--color-white) !important;
+        }
+        .stSelectbox [role="listbox"] div,
+        .stSelectbox [role="listbox"] span {
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
+        }
+
+        /* Focus state */
         .stTextInput > div > div > input:focus,
         .stNumberInput > div > div > input:focus,
         .stSelectbox > div > div > select:focus {
             border-color: var(--color-primary);
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
             outline: none;
-            color: #FFFFFF !important;
-            -webkit-text-fill-color: #FFFFFF !important;
+            color: #1E293B !important;
+            -webkit-text-fill-color: #1E293B !important;
         }
         
         .stSlider > div > div > div > div {

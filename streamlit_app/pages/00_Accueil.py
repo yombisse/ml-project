@@ -17,6 +17,7 @@ st.set_page_config(
     page_title=config["streamlit"]["page_title"],
     page_icon=config["streamlit"]["page_icon"],
     layout=config["streamlit"]["layout"],
+    initial_sidebar_state="expanded",
 )
 
 init_session()

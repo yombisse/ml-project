@@ -106,7 +106,14 @@ def require_authentication(page_title: str) -> None:
     if not st.session_state.get("authenticated", False):
         st.switch_page("pages/00_Accueil.py")
     persist_auth_in_url()
-    render_sidebar(page_title)
+    
+    with st.sidebar:
+        st.markdown("---")
+        if st.button("Se déconnecter", key="logout_btn", use_container_width=True, type="secondary"):
+            st.session_state["confirm_logout"] = True
+    
+    if st.session_state.get("confirm_logout", False):
+        logout_confirmation_dialog()
 
 
 def logout() -> None:
@@ -119,6 +126,7 @@ def logout() -> None:
     st.switch_page("pages/00_Accueil.py")
 
 
+@st.dialog("Confirmer la deconnexion")
 @st.dialog("Confirmer la deconnexion")
 def logout_confirmation_dialog() -> None:
     st.write("Voulez-vous vraiment vous deconnecter ?")
@@ -296,6 +304,14 @@ def inject_global_styles() -> None:
             28% { opacity: 1; }
             36% { opacity: 0; }
             100% { opacity: 0; }
+        }
+        [data-testid="stButton"] button[key="logout_btn"] {
+            border: 2px solid #ef4444 !important;
+            color: #ef4444 !important;
+            background-color: transparent !important;
+        }
+        [data-testid="stButton"] button[key="logout_btn"]:hover {
+            background-color: rgba(239, 68, 68, 0.1) !important;
         }
         @media (max-width: 900px) {
             .overlay-content {
