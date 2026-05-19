@@ -9,12 +9,10 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
-from streamlit_app.common import inject_global_styles, require_authentication
+from streamlit_app.common import require_authentication
 
 
-# Inject CSS immediately at page load
-inject_global_styles()
-
+# Initialize page and authenticate immediately
 require_authentication("Guide")
 
 # Back button

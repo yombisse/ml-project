@@ -227,16 +227,27 @@ def inject_medical_theme() -> None:
             -webkit-text-fill-color: #94A3B8 !important;
         }
 
-        /* BaseWeb selectbox - texte en noir */
+        /* BaseWeb selectbox - force texte noir (état fermé & ouvert) */
         .stSelectbox [data-baseweb="select"],
         .stSelectbox [role="combobox"],
         .stSelectbox [data-baseweb="select"] span,
-        .stSelectbox [data-baseweb="select"] div {
+        .stSelectbox [data-baseweb="select"] div,
+        .stSelectbox [data-baseweb="select"] p,
+        .stSelectbox [data-baseweb="select"] label,
+        .stSelectbox [role="combobox"] span,
+        .stSelectbox [role="combobox"] div {
             color: #1E293B !important;
             -webkit-text-fill-color: #1E293B !important;
+            background: #FFFFFF !important;
         }
 
-        /* Select HTML - fond blanc, texte noir */
+        /* Zone d'affichage de la valeur (baseweb) */
+        .stSelectbox [data-baseweb="select"] [data-testid="stSelectbox"] {
+            color: #1E293B !important;
+            background: #FFFFFF !important;
+        }
+
+        /* Select HTML - fond blanc, texte noir (fallback) */
         .stSelectbox > div > div > select,
         .stSelectbox select {
             background: var(--color-white) !important;
@@ -249,6 +260,7 @@ def inject_medical_theme() -> None:
             padding: 0.75rem 1rem;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
+
 
         /* Options du select - fond blanc, texte noir */
         .stSelectbox > div > div > select option {

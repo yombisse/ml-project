@@ -12,7 +12,7 @@ if str(ROOT_DIR) not in sys.path:
 from src.constants import CLASS_LABELS
 from src.utils import load_artifact, load_config, resolve_path
 from src.models import run_training_pipeline
-from streamlit_app.common import inject_global_styles, require_authentication
+from streamlit_app.common import require_authentication
 from streamlit_app.ui_components import (
     numeric_slider_input,
     section_title,
@@ -25,12 +25,11 @@ from streamlit_app.ui_components import (
 
 st.set_page_config(
     page_title="Prédiction Maladie Cardiaque",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-# Inject CSS immediately at page load
-inject_global_styles()
-
+# Initialize page and authenticate immediately
 require_authentication("Prédiction")
 
 # Back button
@@ -230,7 +229,7 @@ with st.form("formulaire_prediction"):
     
     divider()
     
-    envoyer = st.form_submit_button("🏥 Analyser le Patient", use_container_width=True)
+    envoyer = st.form_submit_button("🏥 Analyser le Patient", width="stretch")
 
 
 if envoyer:

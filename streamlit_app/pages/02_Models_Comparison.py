@@ -7,12 +7,17 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+st.set_page_config(
+    page_title="Resultats globaux",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 ROOT_DIR = Path(__file__).resolve().parents[2]
 if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 from streamlit_app.common import (
-    inject_global_styles,
     render_export_menu,
     require_authentication,
 )
@@ -40,9 +45,7 @@ def beautify_models(dataframe: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# Inject CSS immediately at page load
-inject_global_styles()
-
+# Initialize page and authenticate immediately
 require_authentication("Comparaison")
 
 # Back button
@@ -81,7 +84,7 @@ tab1, tab2, tab3 = st.tabs(["Classement general", "Resultats detailles", "Lectur
 
 with tab1:
     st.subheader("Classement general")
-    st.dataframe(cv_df.round(3), use_container_width=True)
+    st.dataframe(cv_df.round(3), width="stretch")
 
     cv_bar = px.bar(
         cv_df,
@@ -92,11 +95,11 @@ with tab1:
         labels={"model": "Solution", "cv_roc_auc_mean": "Qualite moyenne"},
         color_continuous_scale="Tealgrn",
     )
-    st.plotly_chart(cv_bar, use_container_width=True)
+    st.plotly_chart(cv_bar, width="stretch")
 
 with tab2:
     st.subheader("Resultats detailles")
-    st.dataframe(test_df.round(3), use_container_width=True)
+    st.dataframe(test_df.round(3), width="stretch")
 
     test_long = test_df.melt(
         id_vars="model",
@@ -114,7 +117,7 @@ with tab2:
         markers=True,
         title="Evolution des scores par solution",
     )
-    st.plotly_chart(line_fig, use_container_width=True)
+    st.plotly_chart(line_fig, width="stretch")
 
 with tab3:
     st.success(f"La solution la plus stable pour cette application est : {best_model}.")

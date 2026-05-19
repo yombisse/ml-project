@@ -7,12 +7,17 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+st.set_page_config(
+    page_title="Vue d'ensemble",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 ROOT_DIR = Path(__file__).resolve().parents[2]
 if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 from streamlit_app.common import (
-    inject_global_styles,
     render_export_menu,
     require_authentication,
 )
@@ -24,9 +29,7 @@ def get_data() -> pd.DataFrame:
     return load_processed_dataset()
 
 
-# Inject CSS immediately at page load
-inject_global_styles()
-
+# Initialize page and authenticate immediately
 require_authentication("Analyse")
 
 st.title("Vue d'ensemble des donnees")
@@ -68,7 +71,7 @@ with left:
         color_discrete_sequence=["#6cae75", "#d95f02"],
         title="Age des patients",
     )
-    st.plotly_chart(age_fig, use_container_width=True)
+    st.plotly_chart(age_fig, width="stretch")
 
 with right:
     target_fig = px.pie(
@@ -77,7 +80,7 @@ with right:
         title="Repartition generale",
         color_discrete_sequence=["#6cae75", "#d95f02"],
     )
-    st.plotly_chart(target_fig, use_container_width=True)
+    st.plotly_chart(target_fig, width="stretch")
 
 row2_col1, row2_col2 = st.columns(2)
 with row2_col1:
@@ -89,7 +92,7 @@ with row2_col1:
         title="Repartition selon le sexe",
         labels={"x": "Sexe", "color": "Observation"},
     )
-    st.plotly_chart(sex_fig, use_container_width=True)
+    st.plotly_chart(sex_fig, width="stretch")
 
 with row2_col2:
     cp_fig = px.histogram(
@@ -100,7 +103,7 @@ with row2_col2:
         title="Type de douleur thoracique observe",
         labels={"cp": "Categorie", "color": "Observation"},
     )
-    st.plotly_chart(cp_fig, use_container_width=True)
+    st.plotly_chart(cp_fig, width="stretch")
 
 summary = (
     df.groupby("target")[["trestbps", "chol", "thalach"]]
@@ -109,7 +112,7 @@ summary = (
     .round(2)
 )
 st.subheader("Moyennes observees")
-st.dataframe(summary, use_container_width=True)
+st.dataframe(summary, width="stretch")
 
 row3_col1, row3_col2 = st.columns(2)
 with row3_col1:
@@ -120,7 +123,7 @@ with row3_col1:
         barmode="group",
         title="Glycemie a jeun",
     )
-    st.plotly_chart(fbs_fig, use_container_width=True)
+    st.plotly_chart(fbs_fig, width="stretch")
 
 with row3_col2:
     exang_fig = px.histogram(
@@ -130,4 +133,4 @@ with row3_col2:
         barmode="group",
         title="Ressenti a l'effort",
     )
-    st.plotly_chart(exang_fig, use_container_width=True)
+    st.plotly_chart(exang_fig, width="stretch")

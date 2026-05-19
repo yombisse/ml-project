@@ -106,14 +106,7 @@ def require_authentication(page_title: str) -> None:
     if not st.session_state.get("authenticated", False):
         st.switch_page("pages/00_Accueil.py")
     persist_auth_in_url()
-    
-    with st.sidebar:
-        st.markdown("---")
-        if st.button("Se déconnecter", key="logout_btn", use_container_width=True, type="secondary"):
-            st.session_state["confirm_logout"] = True
-    
-    if st.session_state.get("confirm_logout", False):
-        show_logout_confirmation_dialog()
+    render_sidebar(page_title)
 
 
 def logout() -> None:
@@ -131,30 +124,45 @@ def show_logout_confirmation_dialog() -> None:
     st.write("Voulez-vous vraiment vous deconnecter ?")
     left, right = st.columns(2)
     with left:
-        if st.button("Annuler", use_container_width=True):
+        if st.button("Annuler", width="stretch"):
             st.session_state["confirm_logout"] = False
             st.rerun()
     with right:
-        if st.button("Confirmer", type="primary", use_container_width=True):
+        if st.button("Confirmer", type="primary", width="stretch"):
             st.session_state["confirm_logout"] = False
             logout()
 
 
+
 def render_sidebar(current_page: str) -> None:
     with st.sidebar:
-        st.markdown("## Heart Prediction")
-        st.write(f"Connecte en tant que : **{st.session_state.get('user_email', 'Utilisateur')}**")
-        st.caption(f"Page en cours : {current_page}")
+        # Avatar + infos utilisateur
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image("https://api.dicebear.com/7.x/initials/png?seed=" +
+                     st.session_state.get('user_email', 'U'),
+                     width=60)
+        with col2:
+            st.markdown("### Heart Prediction")
+            st.caption(f"Connecté : {st.session_state.get('user_email', 'Utilisateur')}")
+
         st.markdown("---")
-        st.page_link("pages/01_EDA.py", label="Vue d'ensemble")
-        st.page_link("pages/02_Models_Comparison.py", label="Resultats globaux")
-        st.page_link("pages/03_Prediction.py", label="Estimation individuelle")
-        st.page_link("pages/04_Guide_Application.py", label="Guide")
+
+        # Items EXACTS demandés
+        st.page_link("pages/01_EDA.py", label="EDA")
+        st.page_link("pages/02_Models_Comparison.py", label="Models Comparaison")
+        st.page_link("pages/03_Prediction.py", label="Prediction")
+        st.page_link("pages/04_Guide_Application.py", label="Guide Application")
+
         st.markdown("---")
-        if st.button("Se deconnecter", use_container_width=True):
+
+        if st.button("Se deconnecter", width="stretch"):
             st.session_state["confirm_logout"] = True
+
     if st.session_state.get("confirm_logout", False):
         show_logout_confirmation_dialog()
+
+
 
 
 def inject_global_styles() -> None:
@@ -534,13 +542,13 @@ def dataframe_to_excel_bytes(dataframe: pd.DataFrame, sheet_name: str = "donnees
 
 
 def render_export_menu(dataframe: pd.DataFrame, base_filename: str, sheet_name: str, label: str = "Exporter") -> None:
-    with st.popover(label, use_container_width=True):
+    with st.popover(label, width="stretch"):
         st.download_button(
             "Telecharger en CSV",
             data=dataframe_to_csv_bytes(dataframe),
             file_name=f"{base_filename}.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
         try:
             excel_bytes = dataframe_to_excel_bytes(dataframe, sheet_name)
@@ -549,7 +557,7 @@ def render_export_menu(dataframe: pd.DataFrame, base_filename: str, sheet_name: 
                 data=excel_bytes,
                 file_name=f"{base_filename}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                use_container_width=True,
+                width="stretch",
             )
         except Exception as exc:
             logger.warning("Excel export unavailable for %s: %s", base_filename, exc)

@@ -46,5 +46,5 @@ render_login_shell()
 
 left, center, right = st.columns([1, 1, 1])
 with center:
-    if st.button("Connexion", type="primary", use_container_width=True):
+    if st.button("Connexion", type="primary", width="stretch"):
         open_login_dialog()
