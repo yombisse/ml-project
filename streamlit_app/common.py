@@ -113,7 +113,7 @@ def require_authentication(page_title: str) -> None:
             st.session_state["confirm_logout"] = True
     
     if st.session_state.get("confirm_logout", False):
-        logout_confirmation_dialog()
+        show_logout_confirmation_dialog()
 
 
 def logout() -> None:
@@ -127,8 +127,7 @@ def logout() -> None:
 
 
 @st.dialog("Confirmer la deconnexion")
-@st.dialog("Confirmer la deconnexion")
-def logout_confirmation_dialog() -> None:
+def show_logout_confirmation_dialog() -> None:
     st.write("Voulez-vous vraiment vous deconnecter ?")
     left, right = st.columns(2)
     with left:
@@ -155,7 +154,7 @@ def render_sidebar(current_page: str) -> None:
         if st.button("Se deconnecter", use_container_width=True):
             st.session_state["confirm_logout"] = True
     if st.session_state.get("confirm_logout", False):
-        logout_confirmation_dialog()
+        show_logout_confirmation_dialog()
 
 
 def inject_global_styles() -> None:
